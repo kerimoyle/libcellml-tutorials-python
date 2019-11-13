@@ -1,0 +1,230 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tutorial 0: Installing libCellML libraries &#8212; libCellML Tutorials  documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial 1: Reading, writing, ‘rithmetic" href="tutorial1.html" />
+    <link rel="prev" title="libCellML Python Tutorials" href="index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tutorial1.html" title="Tutorial 1: Reading, writing, ‘rithmetic"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="libCellML Python Tutorials"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">libCellML Tutorials  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">libCellML Python Tutorials</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial1.html"
+                        title="next chapter">Tutorial 1: Reading, writing, ‘rithmetic</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/test_installation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial-0-installing-libcellml-libraries">
+<h1>Tutorial 0: Installing libCellML libraries<a class="headerlink" href="#tutorial-0-installing-libcellml-libraries" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li><p>Create an empty folder and navigate into it</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir libcellml-tutorials</span>
+<span class="go">cd libcellml-tutorials</span>
+</pre></div>
+</div>
+<p>2. Clone the branch from the libcellml github repository into the folder.
+This will create and populate a folder called <code class="code docutils literal notranslate"><span class="pre">libcellml</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone -b export_compiler_features_i428 --single-branch https://github.com/hsorby/libcellml.git</span>
+<span class="go">git clone -b develop --single-branch https://github.com/cellml/libcellml.git</span>
+</pre></div>
+</div>
+<p>Your folder structure is now:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-- libcellml-tutorials
+ +--libcellml
+    +-- ... contains the files you cloned
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Create two more folders inside your <code class="code docutils literal notranslate"><span class="pre">libcellml-tutorials</span></code> folder</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir build-library</span>
+<span class="go">mkdir install-library</span>
+</pre></div>
+</div>
+<p>Your folder structure should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-- libcellml-tutorials
+ +--build-library
+    +-- ... empty
+ +--install-library
+    +-- ... empty
+ +--libcellml
+    +-- ... contains the files you cloned
+</pre></div>
+</div>
+<p>4. Navigate into the <code class="code docutils literal notranslate"><span class="pre">build-library</span></code> directory to make and install the
+library:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd build-library</span>
+<span class="go">cmake -DINSTALL_PREFIX=../install-library ../libcellml</span>
+<span class="go">make -j</span>
+<span class="go">make install</span>
+<span class="go">cd ..</span>
+</pre></div>
+</div>
+<p>You should see output similar to this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">-- The CXX compiler identification is AppleClang 10.0.1.10010046</span>
+<span class="go">-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++</span>
+<span class="go">-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ -- works</span>
+<span class="go">-- Detecting CXX compiler ABI info</span>
+<span class="go">-- Detecting CXX compiler ABI info - done</span>
+<span class="go">-- Detecting CXX compile features</span>
+<span class="go">-- Detecting CXX compile features - done</span>
+<span class="go">-- Found Python: /usr/local/Frameworks/Python.framework/Versions/3.7/bin/python3.7 (found version &quot;3.7.4&quot;) found components:  Interpreter Development</span>
+<span class="go">-- Found Doxygen: /usr/local/bin/doxygen (found version &quot;1.8.15&quot;) found components:  doxygen dot</span>
+<span class="go">-- Found Sphinx: /usr/local/opt/sphinx-doc/bin/sphinx-build</span>
+<span class="go">-- Found SWIG: /usr/local/bin/swig (found suitable version &quot;4.0.0&quot;, minimum required is &quot;3&quot;)</span>
+<span class="go">-- Performing Test LLVM_COVERAGE_COMPILER_FLAGS_OK</span>
+<span class="go">-- Performing Test LLVM_COVERAGE_COMPILER_FLAGS_OK - Success</span>
+<span class="go">-- Performing Test GCC_COVERAGE_COMPILER_FLAGS_OK</span>
+<span class="go">-- Performing Test GCC_COVERAGE_COMPILER_FLAGS_OK - Success</span>
+<span class="go">-- Found LibXml2: /usr/lib/libxml2.dylib (found version &quot;2.9.4&quot;)</span>
+<span class="go">-- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY</span>
+<span class="go">-- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY - Success</span>
+<span class="go">-- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY</span>
+<span class="go">-- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY - Success</span>
+<span class="go">-- Performing Test COMPILER_HAS_DEPRECATED_ATTR</span>
+<span class="go">-- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Success</span>
+<span class="go">-- The C compiler identification is AppleClang 10.0.1.10010046</span>
+<span class="go">-- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc</span>
+<span class="go">-- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc -- works</span>
+<span class="go">-- Detecting C compiler ABI info</span>
+<span class="go">-- Detecting C compiler ABI info - done</span>
+<span class="go">-- Detecting C compile features</span>
+<span class="go">-- Detecting C compile features - done</span>
+<span class="go">-- Looking for pthread.h</span>
+<span class="go">-- Looking for pthread.h - found</span>
+<span class="go">-- Looking for pthread_create</span>
+<span class="go">-- Looking for pthread_create - found</span>
+<span class="go">-- Found Threads: TRUE</span>
+<span class="go">-- Configuring done</span>
+<span class="go">-- Generating done</span>
+<span class="go">-- Build files have been written to: /Users/YourName/libcellml-tutorials-testing/build-library</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Change back into the top directory and download the tutorials from ??.</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ../</span>
+</pre></div>
+</div>
+<p>Your folder should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>-- libcellml-tutorials
+ +--build-library
+    +-- ( ... lots of files from your earlier make command )
+ +--install-library
+    +-- include
+    +-- lib
+ +--libcellml
+ +--test_installation
+    +-- test_installation.cpp
+    +-- CMakeLists.txt
+ +--tutorial1
+    +-- ( ... files for the tutorial )
+ +--tutorial2
+ + ( ... etc ... )
+</pre></div>
+</div>
+<p>6. Change into the <code class="code docutils literal notranslate"><span class="pre">test_installation</span></code> folder and build the test example
+to check your installation:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd test_installation</span>
+<span class="go">cmake -DCMAKE_PREFIX_PATH=../install-library .</span>
+<span class="go">make -j</span>
+<span class="go">./test_installation</span>
+</pre></div>
+</div>
+<p>If your installation is correct you will see an output similar to below, where
+the number is the version of the libCellML library:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">|--------------------------------------</span>
+<span class="go">| Welcome to libCellML!</span>
+<span class="go">| 0.2.0</span>
+<span class="go">|--------------------------------------</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tutorial1.html" title="Tutorial 1: Reading, writing, ‘rithmetic"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="libCellML Python Tutorials"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">libCellML Tutorials  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, libCellML group, ABI.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>
