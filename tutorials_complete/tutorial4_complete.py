@@ -90,7 +90,7 @@ if __name__ == "__main__":
 
     #  2.b   Add the maths to the component.  Note that there is only one maths
     #        string stored, so parts which are appended must create a viable
-    #        MathML2 string when concatenated.  To clear any string which is
+    #        MathML2 string when concatenated.  To completly clear any string which is
     #        already stored, simply call setMath("") with an empty string.
     component.setMath(math_header)
     component.appendMath(equation1)
