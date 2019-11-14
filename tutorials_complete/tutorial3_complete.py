@@ -14,9 +14,9 @@
       - serialising and printing a model to a CellML file (T1)
 """
 
-import libcellml
+from libcellml import Component, Generator, GeneratorProfile, Model, Units, Validator, Variable
 
-from utilities.tutorial_utilities import print_model_to_terminal, print_errors_to_terminal
+from utilities.tutorial_utilities import print_errors_to_terminal, print_model_to_terminal
 
 if __name__ == "__main__":
     print("-----------------------------------------------------")
@@ -27,12 +27,12 @@ if __name__ == "__main__":
     #   STEP 1: Create the model instance
     #
     #   1.a   Allocate the ModelPtr
-    model = libcellml.Model()
+    model = Model()
     model.setName("Tutorial3_model")
 
     #   1.b   Create a component to use as an integrator, set its attributes and
     #        add it to the model
-    component = libcellml.Component()
+    component = Component()
     component.setName("component")
     model.addComponent(component)
 
@@ -66,16 +66,16 @@ if __name__ == "__main__":
     component.appendMath(math_footer)
 
     #  1.f   Create a validator and use it to check the model so far
-    validator = libcellml.Validator()
+    validator = Validator()
     validator.validateModel(model)
     print_errors_to_terminal(validator)
 
     #  1.g   Create some variables and add them to the component
-    time = libcellml.Variable()
+    time = Variable()
     time.setName("t")
     component.addVariable(time)
 
-    distance = libcellml.Variable()
+    distance = Variable()
     distance.setName("x")
     component.addVariable(distance)
 
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     #  2.a  Define the relationship between our custom units and the built-in
     #       units. There is a list of built-in units and their definitions
     #       available in section 19.2 of the CellML2 specification.
-    millisecond = libcellml.Units()
+    millisecond = Units()
     millisecond.setName("millisecond")
     millisecond.addUnit("second", "milli")
     # "second" is a built-in unit, used inside millisecond with the
@@ -117,7 +117,7 @@ if __name__ == "__main__":
     # integer value of -3, corresponding to the power of 10 by
     # which the base is multiplied.
 
-    league = libcellml.Units()
+    league = Units()
     league.setName("league")
     league.addUnit("metre", 3, 1.0, 5.556)
     # "metre" is a built-in unit.  A league is equal to 5556m, but here
@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
     #  2.e Create and define the constant "a" to have a value of -1.  Check that there
     #      are no more validation errors.
-    a = libcellml.Variable()
+    a = Variable()
     a.setName("a")
     a.setUnits("dimensionless")
     a.setInitialValue(-1.0)
@@ -176,9 +176,9 @@ if __name__ == "__main__":
     #  3.a Create a Generator instance and use it to process the model.  Output
     #      any errors to the terminal using the utility function printErrorsToTerminal
     #      called with your generator as argument.
-    generator = libcellml.Generator()
-    # generator.processModel(model)
-    # print_errors_to_terminal(generator)
+    generator = Generator()
+    generator.processModel(model)
+    print_errors_to_terminal(generator)
 
     #  3.b Set the initial conditions of the distance variable such that x(t=0)=5 and
     #      check that there are no more errors reported.
@@ -201,7 +201,7 @@ if __name__ == "__main__":
     # print("Model type = " + get_model_type_from_enum(generator.modelType()))
 
     #  3.d Change the Generator profile to be Python instead of the default C
-    profile = libcellml.GeneratorProfile(libcellml.GeneratorProfile.profile.PYTHON)
+    profile = GeneratorProfile(GeneratorProfile.Profile.PYTHON)
     generator.setProfile(profile)
 
     #  3.e Create the implementation code and print to a Python file

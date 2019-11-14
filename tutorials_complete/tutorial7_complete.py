@@ -13,14 +13,14 @@
 
 """
 
-import libcellml
+from libcellml import Component, Model, Printer, Units, Validator
 
 from utilities.tutorial_utilities import print_errors_to_terminal
 
 if __name__ == "__main__":
     #  0 Setup stuff that is used throughout
-    validator = libcellml.Validator()
-    model = libcellml.Model()
+    validator = Validator()
+    model = Model()
     model.setName("Tutorial7_SodiumChannelModel")
 
     math_header = '<math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:cellml="http://www.cellml.org/cellml/2.0#">'
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  1.a Create the component instance, name it, and add to the model
-    sodium_channel = libcellml.Component()
+    sodium_channel = Component()
     sodium_channel.setName("sodiumChannel")
     model.addComponent(sodium_channel)
 
@@ -96,90 +96,90 @@ if __name__ == "__main__":
 
     #  1.c Add the variables
     if True:
-        V = libcellml.Variable()
+        V = Variable()
         V.setName("V")
         V.setUnits("mV")
         sodium_channel.addVariable(V)
 
-        t = libcellml.Variable()
+        t = Variable()
         t.setName("t")
         t.setUnits("ms")
         sodium_channel.addVariable(t)
 
-        h = libcellml.Variable()
+        h = Variable()
         h.setName("h")
         h.setUnits("dimensionless")
         sodium_channel.addVariable(h)
 
-        m = libcellml.Variable()
+        m = Variable()
         m.setName("m")
         m.setUnits("dimensionless")
         sodium_channel.addVariable(m)
 
-        g_Na = libcellml.Variable()
+        g_Na = Variable()
         g_Na.setName("g_Na")
         g_Na.setUnits("mS_per_cm2")
         g_Na.setInitialValue(120)
         sodium_channel.addVariable(g_Na)
 
-        E_Na = libcellml.Variable()
+        E_Na = Variable()
         E_Na.setName("E_Na")
         E_Na.setUnits("mV")
         sodium_channel.addVariable(E_Na)
 
-        i_Na = libcellml.Variable()
+        i_Na = Variable()
         i_Na.setName("i_Na")
         i_Na.setUnits("microA_per_cm2")
         sodium_channel.addVariable(i_Na)
 
-        Nao = libcellml.Variable()
+        Nao = Variable()
         Nao.setName("Nao")
         Nao.setUnits("mM")
         Nao.setInitialValue(140)
         sodium_channel.addVariable(Nao)
 
-        Nai = libcellml.Variable()
+        Nai = Variable()
         Nai.setName("Nai")
         Nai.setUnits("mM")
         Nai.setInitialValue(30)
         sodium_channel.addVariable(Nai)
 
-        RTF = libcellml.Variable()
+        RTF = Variable()
         RTF.setName("RTF")
         RTF.setUnits("mV")
         RTF.setInitialValue(25)
         sodium_channel.addVariable(RTF)
 
-        Na_conductance = libcellml.Variable()
+        Na_conductance = Variable()
         Na_conductance.setName("Na_conductance")
         Na_conductance.setUnits("mS_per_cm2")
         sodium_channel.addVariable(Na_conductance)
 
     #  1.d Add the units
 
-    mV = libcellml.Units()
+    mV = Units()
     mV.setName("mV")
     mV.addUnit("volt", "milli")
     model.addUnits(mV)
 
-    ms = libcellml.Units()
+    ms = Units()
     ms.setName("ms")
     ms.addUnit("second", "milli")
     model.addUnits(ms)
 
-    mS_per_cm2 = libcellml.Units()
+    mS_per_cm2 = Units()
     mS_per_cm2.setName("mS_per_cm2")
     mS_per_cm2.addUnit("siemens", "milli")
     mS_per_cm2.addUnit("metre", "centi", -2)
     model.addUnits(mS_per_cm2)
 
-    microA_per_cm2 = libcellml.Units()
+    microA_per_cm2 = Units()
     microA_per_cm2.setName("microA_per_cm2")
     microA_per_cm2.addUnit("ampere", "micro")
     microA_per_cm2.addUnit("metre", "centi", -2)
     model.addUnits(microA_per_cm2)
 
-    mM = libcellml.Units()
+    mM = Units()
     mM.setName("mM")
     mM.addUnit("mole", "milli")
     model.addUnits(mM)
@@ -192,7 +192,7 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  2.a Create the component and add it to the sodium channel component
-    mGate = libcellml.Component()
+    mGate = Component()
     mGate.setName("mGate")
     sodium_channel.addComponent(mGate)
 
@@ -240,27 +240,27 @@ if __name__ == "__main__":
     #      add the variables needed
 
     if True:
-        V = libcellml.Variable()
+        V = Variable()
         V.setName("V")
         V.setUnits("mV")
         mGate.addVariable(V)
 
-        t = libcellml.Variable()
+        t = Variable()
         t.setName("t")
         t.setUnits("ms")
         mGate.addVariable(t)
 
-        alpha_m = libcellml.Variable()
+        alpha_m = Variable()
         alpha_m.setName("alpha_m")
         alpha_m.setUnits("per_ms")
         mGate.addVariable(alpha_m)
 
-        beta_m = libcellml.Variable()
+        beta_m = Variable()
         beta_m.setName("beta_m")
         beta_m.setUnits("per_ms")
         mGate.addVariable(beta_m)
 
-        m = libcellml.Variable()
+        m = Variable()
         m.setName("m")
         m.setUnits("dimensionless")
         mGate.addVariable(m)
@@ -268,7 +268,7 @@ if __name__ == "__main__":
     #  2.d Call the validator to check the model - expect errors related to
     #      units missing from the model.  Add them in as needed.
 
-    per_mV_ms = libcellml.Units()
+    per_mV_ms = Units()
     per_mV_ms.setName("per_mV_ms")
     per_mV_ms.addUnit("second", "milli", -1)
     per_mV_ms.addUnit("volt", "milli", -1)
@@ -282,7 +282,7 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  3.a Create the hGate component and add it to the sodium channel component
-    hGate = libcellml.Component()
+    hGate = Component()
     hGate.setName("hGate")
     sodium_channel.addComponent(hGate)
 
@@ -350,33 +350,33 @@ if __name__ == "__main__":
 
     #  3.c Adding the variables
     if True:
-        V = libcellml.Variable()
+        V = Variable()
         V.setName("V")
         V.setUnits("mV")
         hGate.addVariable(V)
 
-        t = libcellml.Variable()
+        t = Variable()
         t.setName("t")
         t.setUnits("ms")
         hGate.addVariable(t)
 
-        alpha_h = libcellml.Variable()
+        alpha_h = Variable()
         alpha_h.setName("alpha_h")
         alpha_h.setUnits("per_ms")
         hGate.addVariable(alpha_h)
 
-        beta_h = libcellml.Variable()
+        beta_h = Variable()
         beta_h.setName("beta_h")
         beta_h.setUnits("per_ms")
         hGate.addVariable(beta_h)
 
-        h = libcellml.Variable()
+        h = Variable()
         h.setName("h")
         h.setUnits("dimensionless")
         hGate.addVariable(h)
 
     #  3.d Add the missing units
-    per_ms = libcellml.Units()
+    per_ms = Units()
     per_ms.setName("per_ms")
     per_ms.addUnit("second", "milli", -1)
     model.addUnits(per_ms)
@@ -389,17 +389,17 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  4.a Creating the new environment component
-    environment = libcellml.Component()
+    environment = Component()
     environment.setName("environment")
 
     #  4.b Add variables to the component.  
     if True:
-        V = libcellml.Variable()
+        V = Variable()
         V.setName("V")
         V.setUnits("mV")
         environment.addVariable(V)
 
-        t = libcellml.Variable()
+        t = Variable()
         t.setName("t")
         t.setUnits("ms")
         environment.addVariable(t)
@@ -415,27 +415,27 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  5.a Connecting the equivalent variables between all the components
-    libcellml.Variable.addEquivalence(environment.variable("t"), sodium_channel.variable("t"))
-    libcellml.Variable.addEquivalence(sodium_channel.variable("t"), mGate.variable("t"))
-    libcellml.Variable.addEquivalence(sodium_channel.variable("t"), hGate.variable("t"))
+    Variable.addEquivalence(environment.variable("t"), sodium_channel.variable("t"))
+    Variable.addEquivalence(sodium_channel.variable("t"), mGate.variable("t"))
+    Variable.addEquivalence(sodium_channel.variable("t"), hGate.variable("t"))
     environment.variable("t").setInterfaceType("public")
     sodium_channel.variable("t").setInterfaceType("public_and_private")
     mGate.variable("t").setInterfaceType("public")
     hGate.variable("t").setInterfaceType("public")
 
-    libcellml.Variable.addEquivalence(environment.variable("V"), sodium_channel.variable("V"))
-    libcellml.Variable.addEquivalence(sodium_channel.variable("V"), mGate.variable("V"))
-    libcellml.Variable.addEquivalence(sodium_channel.variable("V"), hGate.variable("V"))
+    Variable.addEquivalence(environment.variable("V"), sodium_channel.variable("V"))
+    Variable.addEquivalence(sodium_channel.variable("V"), mGate.variable("V"))
+    Variable.addEquivalence(sodium_channel.variable("V"), hGate.variable("V"))
     environment.variable("V").setInterfaceType("public")
     sodium_channel.variable("V").setInterfaceType("public_and_private")
     mGate.variable("V").setInterfaceType("public")
     hGate.variable("V").setInterfaceType("public")
 
-    libcellml.Variable.addEquivalence(sodium_channel.variable("m"), mGate.variable("m"))
+    Variable.addEquivalence(sodium_channel.variable("m"), mGate.variable("m"))
     sodium_channel.variable("m").setInterfaceType("private")
     mGate.variable("m").setInterfaceType("public")
 
-    libcellml.Variable.addEquivalence(sodium_channel.variable("h"), hGate.variable("h"))
+    Variable.addEquivalence(sodium_channel.variable("h"), hGate.variable("h"))
     sodium_channel.variable("h").setInterfaceType("private")
     hGate.variable("h").setInterfaceType("public")
 
@@ -479,7 +479,7 @@ if __name__ == "__main__":
     print("    STEP 7: Serialise and print the model ")
     print("-----------------------------------------------")
 
-    printer = libcellml.Printer()
+    printer = Printer()
     serialised_model = printer.printModel(model)
     out_file = "Tutorial7_SodiumChannelModel.cellml"
     write_file = open(out_file, "w")

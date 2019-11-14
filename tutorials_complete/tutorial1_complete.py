@@ -10,7 +10,7 @@
 
 """
 
-import libcellml
+from libcellml import Parser, Printer
 
 if __name__ == "__main__":
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     #  1.b   Create a libCellML Parser, and use it to parse the file
     #        string contents and convert it into a CellML Model structure
-    parser = libcellml.Parser()
+    parser = Parser()
     model = parser.parseModel(read_file.read())
 
     # ---------------------------------------------------------------------------
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     #
     #  3.a   Create a Printer and use it to serialise the model to a string
 
-    printer = libcellml.Printer()
+    printer = Printer()
     serialised_model = printer.printModel(model)
 
     #  3.b   Write the serialised string to a file

@@ -11,7 +11,7 @@
         - file manipulation and summarising using the utility functions
       
 """
-import libcellml
+from libcellml import Component, Model, Parser, Printer, Validator, Variable
 
 from utilities.tutorial_utilities import print_errors_to_terminal, print_encapsulation_structure_to_terminal, \
     switch_units_in_maths, insert_into_mathml_string
@@ -19,10 +19,10 @@ from utilities.tutorial_utilities import print_errors_to_terminal, print_encapsu
 if __name__ == "__main__":
 
     #  0.a Create a new model instance representing the combined model and name it.
-    model = libcellml.Model()
+    model = Model()
     model.setName("Tutorial8_HHModel")
-    validator = libcellml.Validator()
-    parser = libcellml.Parser()
+    validator = Validator()
+    parser = Parser()
 
     print("-----------------------------------------------")
     print("    STEP 1: Read the membrane component")
@@ -95,10 +95,10 @@ if __name__ == "__main__":
             model.addUnits(sodium_channel_model.units(u))
 
     #  2.e Disconnect the sodiumChannel from its old environment component
-    libcellml.Variable.removeEquivalence(
+    Variable.removeEquivalence(
         sodium_channel.variable("t"),
         sodium_channel_model.component("environment").variable("t"))
-    libcellml.Variable.removeEquivalence(
+    Variable.removeEquivalence(
         sodium_channel.variable("V"),
         sodium_channel_model.component("environment").variable("V"))
 
@@ -166,10 +166,10 @@ if __name__ == "__main__":
     #      the environment component into our combined model yet, and that is the origin of this
     #      error.  We can solve the problem by creating the local environment component, and adding
     #      the equivalence to that instead.
-    libcellml.Variable.removeEquivalence(
+    Variable.removeEquivalence(
         potassium_channel.variable("t"),
         potassium_channel_model.component("environment").variable("t"))
-    libcellml.Variable.removeEquivalence(
+    Variable.removeEquivalence(
         potassium_channel.variable("V"),
         potassium_channel_model.component("environment").variable("V"))
 
@@ -205,19 +205,19 @@ if __name__ == "__main__":
     print_encapsulation_structure_to_terminal(model)
 
     #  5.a Creating the environment component and adding it to the model
-    environment = libcellml.Component()
+    environment = Component()
     environment.setName("environment")
     model.addComponent(environment)
 
     #  5.b Add variables to the environment component.
     if True:
-        V = libcellml.Variable()
+        V = Variable()
         V.setName("V")
         V.setInitialValue(-85)
         V.setUnits("mV")
         environment.addVariable(V)
 
-        t = libcellml.Variable()
+        t = Variable()
         t.setName("t")
         t.setUnits("ms")
         environment.addVariable(t)
@@ -232,13 +232,13 @@ if __name__ == "__main__":
 
     #  6.a Connecting the membrane to its sibling environment, and the channels to their
     #      parent membrane component.
-    libcellml.Variable.addEquivalence(membrane.variable("t"), sodium_channel.variable("t"))
-    libcellml.Variable.addEquivalence(membrane.variable("t"), potassium_channel.variable("t"))
-    libcellml.Variable.addEquivalence(environment.variable("t"), membrane.variable("t"))
-    libcellml.Variable.addEquivalence(membrane.variable("V"), sodium_channel.variable("V"))
-    libcellml.Variable.addEquivalence(membrane.variable("V"), potassium_channel.variable("V"))
-    libcellml.Variable.addEquivalence(membrane.variable("V"), leakage_current.variable("V"))
-    libcellml.Variable.addEquivalence(environment.variable("V"), membrane.variable("V"))
+    Variable.addEquivalence(membrane.variable("t"), sodium_channel.variable("t"))
+    Variable.addEquivalence(membrane.variable("t"), potassium_channel.variable("t"))
+    Variable.addEquivalence(environment.variable("t"), membrane.variable("t"))
+    Variable.addEquivalence(membrane.variable("V"), sodium_channel.variable("V"))
+    Variable.addEquivalence(membrane.variable("V"), potassium_channel.variable("V"))
+    Variable.addEquivalence(membrane.variable("V"), leakage_current.variable("V"))
+    Variable.addEquivalence(environment.variable("V"), membrane.variable("V"))
 
     #  6.b Setting the interface types for those which haven't been inherited already
     environment.variable("t").setInterfaceType("public")
@@ -286,7 +286,7 @@ if __name__ == "__main__":
     print("   STEP 8: Output the final model")
     print("-----------------------------------------------")
 
-    printer = libcellml.Printer()
+    printer = Printer()
     serialised_model = printer.printModel(model)
     write_file = open("tutorial8_HodgkinHuxleyModel.cellml", "w")
     write_file.write(serialised_model)

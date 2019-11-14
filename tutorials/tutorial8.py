@@ -11,14 +11,14 @@
         - file manipulation and summarising using the utility functions
       
 """
-import libcellml
+from libcellml import Model, Parser, Validator
 
 if __name__ == "__main__":
     #  0    Create a new model instance representing the combined model and name it.
-    model = libcellml.Model()
+    model = Model()
     model.setName("Tutorial8_HHModel")
-    validator = libcellml.Validator()
-    parser = libcellml.Parser()
+    validator = Validator()
+    parser = Parser()
 
     print("-----------------------------------------------")
     print("    STEP 1: Read the membrane component")

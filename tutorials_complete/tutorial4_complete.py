@@ -9,7 +9,7 @@
         - create and include user-defined units (Tutorial 3)
 """
 
-import libcellml
+from libcellml import Component, Model, Printer, Validator, Variable, Units
 
 from utilities.tutorial_utilities import print_errors_to_terminal
 
@@ -20,16 +20,16 @@ if __name__ == "__main__":
     print("-----------------------------------------------------")
 
     #  1.a   Create the model instance
-    model = libcellml.Model()
+    model = Model()
     model.setName("Tutorial4_model")
 
     #  1.b   Create a component and add it into the model
-    component = libcellml.Component()
+    component = Component()
     component.setName("component")
     model.addComponent(component)
 
     #  1.c   Call the validator and print the messages to the terminal. No errors are expected at this stage.
-    validator = libcellml.Validator()
+    validator = Validator()
     validator.validateModel(model)
     print_errors_to_terminal(validator)
 
@@ -111,46 +111,46 @@ if __name__ == "__main__":
     #  3.a,b Declaring the variables, their names, units, and initial conditions
     #        Note that the names given to variables must be the same as that used
     #        within the <ci> blocks in the MathML string we created in step 2.a.
-    t = libcellml.Variable()
+    t = Variable()
     t.setName("t")
     t.setUnits("millisecond")
 
-    V = libcellml.Variable()
+    V = Variable()
     V.setName("V")
     V.setUnits("millivolt")
     V.setInitialValue(0.0)
 
-    alpha_n = libcellml.Variable()
+    alpha_n = Variable()
     alpha_n.setName("alpha_n")
     alpha_n.setUnits("per_millisecond")
     alpha_n.setInitialValue(1.0)
 
-    beta_n = libcellml.Variable()
+    beta_n = Variable()
     beta_n.setName("beta_n")
     beta_n.setUnits("per_millisecond")
     beta_n.setInitialValue(2.0)
 
-    n = libcellml.Variable()
+    n = Variable()
     n.setName("n")
     n.setUnits("dimensionless")
     n.setInitialValue(1.0)
 
-    E_K = libcellml.Variable()
+    E_K = Variable()
     E_K.setName("E_K")
     E_K.setUnits("millivolt")
     E_K.setInitialValue(-85.0)
 
-    i_K = libcellml.Variable()
+    i_K = Variable()
     i_K.setName("i_K")
     i_K.setUnits("microA_per_cm2")
     # Note that no initial value is needed for this variable as its value is defined by equation2
 
-    g_K = libcellml.Variable()
+    g_K = Variable()
     g_K.setName("g_K")
     g_K.setUnits("milliS_per_cm2")
     g_K.setInitialValue(36.0)
 
-    gamma = libcellml.Variable()
+    gamma = Variable()
     gamma.setName("gamma")
     gamma.setUnits("dimensionless")
     gamma.setInitialValue(4.0)
@@ -181,24 +181,24 @@ if __name__ == "__main__":
     #      microA_per_cm2, and milliS_per_cm2. Note that the dimensionless
     #      units are part of those built-in already, so do not need to be
     #      defined here.
-    ms = libcellml.Units()
+    ms = Units()
     ms.setName("millisecond")
     ms.addUnit("second", "milli")
 
-    mV = libcellml.Units()
+    mV = Units()
     mV.setName("millivolt")
     mV.addUnit("volt", "milli")
 
-    per_ms = libcellml.Units()
+    per_ms = Units()
     per_ms.setName("per_millisecond")
     per_ms.addUnit("millisecond", -1.0)
 
-    microA_per_cm2 = libcellml.Units()
+    microA_per_cm2 = Units()
     microA_per_cm2.setName("microA_per_cm2")
     microA_per_cm2.addUnit("ampere", "micro")
     microA_per_cm2.addUnit("metre", "centi", -2.0)
 
-    mS_per_cm2 = libcellml.Units()
+    mS_per_cm2 = Units()
     mS_per_cm2.setName("milliS_per_cm2")
     mS_per_cm2.addUnit("siemens", "milli")
     mS_per_cm2.addUnit("metre", "centi", -2.0)
@@ -219,7 +219,7 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  5.a Create a Printer item and submit your model for serialisation.
-    printer = libcellml.Printer()
+    printer = Printer()
     serialised_model = printer.printModel(model)
 
     #  5.b Write the serialised string output from the printer to a file.

@@ -4,7 +4,8 @@
 libCellML Python Tutorials
 ==========================
 
-Welcome to the tutorials for libCellML.  These are arranged into three sections
+Welcome to the tutorials for libCellML in Python.  These are arranged into
+three sections
 as follows.  The first section (0-3) contains introductory tutorials which
 demonstrate the functionality of the libCellML library on trivial applications.
 The second section (4-8) are designed to be worked through in sequence, with
