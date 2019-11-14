@@ -26,7 +26,7 @@ if __name__ == "__main__":
     #  STEP 1:  Create a CellML Model from the contents of a CellML file
     #
     read_file = open("../resources/tutorial2.cellml", "r")
-    parser = libcellml.Parser()
+    parser = Parser()
     model = parser.parseModel(read_file.read())
 
     # ---------------------------------------------------------------------------
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
     print("       Validating the parsed model")
     print("-----------------------------------------------")
-    validator = libcellml.Validator()
+    validator = Validator()
     validator.validateModel(model)
 
     #  2.b   Check whether there were errors returned from the validator
@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
     # ---------------------------------------------------------------------------
     #  STEP 6:   Print corrected model to a file
-    printer = libcellml.Printer()
+    printer = Printer()
     serialised_model = printer.printModel(model)
 
     write_file = open("tutorial2_printed.cellml", "w")
