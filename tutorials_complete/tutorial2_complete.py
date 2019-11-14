@@ -13,7 +13,7 @@
     - serialise and print a Model structure to a CellML file.
 """
 
-import libcellml
+from libcellml import Parser, Printer, Validator
 
 from utilities.tutorial_utilities import print_model_to_terminal
 

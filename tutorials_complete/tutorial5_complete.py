@@ -16,7 +16,7 @@
         - debugging the model using the Validator functionality
  """
 
-import libcellml
+from libcellml import Component, Parser, Printer, Units, Variable, Validator
 
 from utilities.tutorial_utilities import print_model_to_terminal, print_errors_to_terminal, \
     print_encapsulation_structure_to_terminal
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     #      do that tutorial you can simply copy the CellML file
     #      from resources/tutorial4_IonChannelModel.cellml
     read_file = open("../resources/tutorial4_IonChannelModel.cellml", "r")
-    parser = libcellml.Parser()
+    parser = Parser()
     model = parser.parseModel(read_file.read())
     model.setName("Tutorial5_PotassiumChannelModel")
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     #  1.c Create a Validator and use it to check that the model is ok so far
     #      by printing the errors to the terminal
-    validator = libcellml.Validator()
+    validator = Validator()
     validator.validateModel(model)
     print_errors_to_terminal(validator)
 
@@ -53,19 +53,19 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  2.a  Creating the new environment component
-    environment = libcellml.Component()
+    environment = Component()
     environment.setName("environment")
 
     #  2.b  Add variables to the component.  Use the if True statement to create a limited scope for the variable
     #       definition
 
     if True:
-        V = libcellml.Variable()
+        V = Variable()
         V.setName("V")
         V.setUnits("millivolt")
         environment.addVariable(V)
 
-        t = libcellml.Variable()
+        t = Variable()
         t.setName("t")
         t.setUnits("millisecond")
         environment.addVariable(t)
@@ -83,34 +83,34 @@ if __name__ == "__main__":
 
     #  3.a Creating the n-gate component and the variables it contains
 
-    nGate = libcellml.Component()
+    nGate = Component()
     nGate.setName("nGate")
 
     math_header = '<math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:cellml="http://www.cellml.org/cellml/2.0#">'
     math_footer = '</math>'
 
     if True:
-        V = libcellml.Variable()
+        V = Variable()
         V.setName("V")
         V.setUnits("millivolt")
         nGate.addVariable(V)
 
-        t = libcellml.Variable()
+        t = Variable()
         t.setName("t")
         t.setUnits("millisecond")
         nGate.addVariable(t)
 
-        alpha_n = libcellml.Variable()
+        alpha_n = Variable()
         alpha_n.setName("alpha_n")
         alpha_n.setUnits("per_millisecond")
         nGate.addVariable(alpha_n)
 
-        beta_n = libcellml.Variable()
+        beta_n = Variable()
         beta_n.setName("beta_n")
         beta_n.setUnits("per_millisecond")
         nGate.addVariable(beta_n)
 
-        n = libcellml.Variable()
+        n = Variable()
         n.setName("n")
         n.setUnits("dimensionless")
         nGate.addVariable(n)
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     model.addComponent(nGate)
 
     #  3.d Add the missing units (connected to the constant in equation 1) and recheck the validation
-    per_mVms = libcellml.Units()
+    per_mVms = Units()
     per_mVms.setName("per_millivolt_millisecond")
     per_mVms.addUnit("volt", "milli", -1)
     per_mVms.addUnit("second", "milli", -1)
@@ -229,7 +229,7 @@ if __name__ == "__main__":
     #  4.c Define the equivalent variables between components.  Note that because
     #      the variables have been defined within a limited scope (using the if True as above)
     #      you will need to retrieve them from each component first.
-    # libcellml.Variable.addEquivalence(environment.variable("t"), potassium_channel.variable("t"))
+    # Variable.addEquivalence(environment.variable("t"), potassium_channel.variable("t"))
 
     #  4.d Validating the model: this should show an error reporting that an
     #      invalid connection has been made between the environment and nGate
@@ -241,11 +241,11 @@ if __name__ == "__main__":
     print_errors_to_terminal(validator)
 
     #  4.e  Fix the connection error above, and add the voltage and gating variable equivalences
-    libcellml.Variable.removeEquivalence(environment.variable("t"), nGate.variable("t"))
-    libcellml.Variable.addEquivalence(potassium_channel.variable("t"), nGate.variable("t"))
-    libcellml.Variable.addEquivalence(environment.variable("V"), potassium_channel.variable("V"))
-    libcellml.Variable.addEquivalence(potassium_channel.variable("V"), nGate.variable("V"))
-    libcellml.Variable.addEquivalence(potassium_channel.variable("n"), nGate.variable("n"))
+    Variable.removeEquivalence(environment.variable("t"), nGate.variable("t"))
+    Variable.addEquivalence(potassium_channel.variable("t"), nGate.variable("t"))
+    Variable.addEquivalence(environment.variable("V"), potassium_channel.variable("V"))
+    Variable.addEquivalence(potassium_channel.variable("V"), nGate.variable("V"))
+    Variable.addEquivalence(potassium_channel.variable("n"), nGate.variable("n"))
 
     #  4.f Add the interface specification.  The environment component is a sibling of the potassiumChannel
     #      component, so they will both use the public interface.  The nGate component is a child of the
@@ -308,7 +308,7 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  6.a Create a Printer item and submit your model for serialisation.
-    printer = libcellml.Printer()
+    printer = Printer()
     serialised_model = printer.printModel(model)
     write_file = open("Tutorial5_PotassiumChannelModel.cellml", "w")
     write_file.write(serialised_model)
