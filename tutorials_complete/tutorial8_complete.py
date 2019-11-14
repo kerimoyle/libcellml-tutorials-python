@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     #  1.a Read the model provided for you in the "Tutorial8_MembraneModel.cellml"
     #      file in the resources folder.
-    read_file1 = open("../resources/Tutorial8_MembraneModel.cellml", "r")
+    read_file1 = open("../resources/tutorial8_MembraneModel.cellml", "r")
 
     # 1.b  Create a temporary model for the membrane
     membrane_model = parser.parseModel(read_file1.read())
@@ -64,10 +64,12 @@ if __name__ == "__main__":
     #      Note that if you didn't do that tutorial you can simply copy the CellML file
     #      from Tutorial7_SodiumChannelModel.cellml in the resources folder.
 
-    read_file2 = open("../resources/Tutorial7_SodiumChannelModel.cellml", "r")
+    read_file2 = open("../resources/tutorial7_SodiumChannelModel.cellml", "r")
 
     sodium_channel_model = parser.parseModel(read_file2.read())
     sodium_channel_model.setName("sodiumChannelModel")
+    validator.validateModel(sodium_channel_model)
+    print_errors_to_terminal(validator)
 
     #  2.b Extract the sodiumChannel component from the parsed model and add it
     #      to the one created at the beginning, and check the structure of the 
@@ -108,8 +110,8 @@ if __name__ == "__main__":
     print("       STEP 3: Read the potassium channel")
     print("-----------------------------------------------")
 
-    print("Opening the CellML file: 'Tutorial5_PotassiumChannelModel.cellml'")
-    read_file3 = open("../resources/Tutorial5_PotassiumChannelModel.cellml", "r")
+    print("Opening the CellML file: 'tutorial5_PotassiumChannelModel.cellml'")
+    read_file3 = open("../resources/tutorial5_PotassiumChannelModel.cellml", "r")
 
     #  3.a Deserialising the file and reading into the potassium_channel_model
     potassium_channel_model = parser.parseModel(read_file3.read())
@@ -179,8 +181,8 @@ if __name__ == "__main__":
     print("    STEP 4: Read the leakage component")
     print("-----------------------------------------------")
 
-    print("Opening the CellML file: 'Tutorial8_LeakageCurrentModel.cellml'")
-    read_file4 = open("../resources/Tutorial8_LeakageCurrentModel.cellml", "r")
+    print("Opening the CellML file: 'tutorial8_LeakageCurrentModel.cellml'")
+    read_file4 = open("../resources/tutorial8_LeakageCurrentModel.cellml", "r")
 
     #  4.a Deserialising the file and reading into the leakageCurrentModel
     leakage_current_model = parser.parseModel(read_file4.read())
@@ -286,6 +288,6 @@ if __name__ == "__main__":
 
     printer = libcellml.Printer()
     serialised_model = printer.printModel(model)
-    write_file = open("Tutorial8_HodgkinHuxleyModel.cellml", "w")
+    write_file = open("tutorial8_HodgkinHuxleyModel.cellml", "w")
     write_file.write(serialised_model)
-    print("The {} has been printed to Tutorial8_HodgkinHuxleyModel.cellml".format(model.name()))
+    print("The {} has been printed to tutorial8_HodgkinHuxleyModel.cellml".format(model.name()))

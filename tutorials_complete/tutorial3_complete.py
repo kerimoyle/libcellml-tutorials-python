@@ -16,7 +16,7 @@
 
 import libcellml
 
-from tutorial_utilities import print_model_to_terminal, print_errors_to_terminal
+from utilities.tutorial_utilities import print_model_to_terminal, print_errors_to_terminal
 
 if __name__ == "__main__":
     print("-----------------------------------------------------")
@@ -201,7 +201,7 @@ if __name__ == "__main__":
     # print("Model type = " + get_model_type_from_enum(generator.modelType()))
 
     #  3.d Change the Generator profile to be Python instead of the default C
-    profile = libcellml.GeneratorProfile(libcellml.GeneratorProfile.Profile.PYTHON)
+    profile = libcellml.GeneratorProfile(libcellml.GeneratorProfile.profile.PYTHON)
     generator.setProfile(profile)
 
     #  3.e Create the implementation code and print to a Python file

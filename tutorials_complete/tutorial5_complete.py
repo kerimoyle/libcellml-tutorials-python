@@ -53,17 +53,20 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  2.a  Creating the new environment component
-    environment = libcellml.Component("environment")
+    environment = libcellml.Component()
+    environment.setName("environment")
 
     #  2.b  Add variables to the component.  Use the if True statement to create a limited scope for the variable
     #       definition
 
     if True:
-        V = libcellml.Variable("V")
+        V = libcellml.Variable()
+        V.setName("V")
         V.setUnits("millivolt")
         environment.addVariable(V)
 
-        t = libcellml.Variable("t")
+        t = libcellml.Variable()
+        t.setName("t")
         t.setUnits("millisecond")
         environment.addVariable(t)
 
@@ -203,18 +206,21 @@ if __name__ == "__main__":
     model.addComponent(nGate)
 
     #  3.d Add the missing units (connected to the constant in equation 1) and recheck the validation
-    per_mVms = libcellml.Units("per_millivolt_millisecond")
+    per_mVms = libcellml.Units()
+    per_mVms.setName("per_millivolt_millisecond")
     per_mVms.addUnit("volt", "milli", -1)
     per_mVms.addUnit("second", "milli", -1)
     model.addUnits(per_mVms)
     validator.validateModel(model)
     print_errors_to_terminal(validator)
+    print_encapsulation_structure_to_terminal(model)
 
     print("-----------------------------------------------")
-    print("  STEP 4: Define the component hierarchy ")
+    print("  STEP 4: Define the component hierarchy       ")
     print("-----------------------------------------------")
 
     #  4.a Change the nGate component to be a child of the potassiumChannel component
+    model.removeComponent(nGate)
     potassium_channel.addComponent(nGate)
 
     #  4.b Verify the component hierarchy by printing the model to the screen
@@ -223,13 +229,15 @@ if __name__ == "__main__":
     #  4.c Define the equivalent variables between components.  Note that because
     #      the variables have been defined within a limited scope (using the if True as above)
     #      you will need to retrieve them from each component first.
-    libcellml.Variable.addEquivalence(environment.variable("t"), potassium_channel.variable("t"))
+    # libcellml.Variable.addEquivalence(environment.variable("t"), potassium_channel.variable("t"))
 
     #  4.d Validating the model: this should show an error reporting that an
     #      invalid connection has been made between the environment and nGate
     #      components
     # TODO This should produce a validation error but currently does not?
+    print(2)
     validator.validateModel(model)
+    print(3)
     print_errors_to_terminal(validator)
 
     #  4.e  Fix the connection error above, and add the voltage and gating variable equivalences
@@ -244,9 +252,9 @@ if __name__ == "__main__":
     #      potassiumChannel, so will use the public interface.  The potassiumChannel is the parent of the
     #      nGate component, so will need an additional private interface.  The nGate will have a public
     #      interface to its parent, the potassiumChannel.  Thus for the V and t variables:
-    #          - environment . public
-    #          - potassiumChannel . public_and_private
-    #          - nGate . public
+    #          - environment -> public
+    #          - potassiumChannel -> public_and_private
+    #          - nGate -> public
     #      Because the n variable is shared only between the potassiumChannel and the nGate, we don't need to
     #      use the public_and_private designation there just private on the parent and public on the child.
 

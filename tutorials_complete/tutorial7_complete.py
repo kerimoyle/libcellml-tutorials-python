@@ -31,7 +31,8 @@ if __name__ == "__main__":
     print("-----------------------------------------------")
 
     #  1.a Create the component instance, name it, and add to the model
-    sodium_channel = libcellml.Component("sodiumChannel")
+    sodium_channel = libcellml.Component()
+    sodium_channel.setName("sodiumChannel")
     model.addComponent(sodium_channel)
 
     #  1.b Add the MathML representing the governing equations
