@@ -11,7 +11,7 @@
         - file manipulation and summarising using the utility functions
       
 """
-from libcellml import Component, Model, Parser, Printer, Validator, Variable
+from libcellml import Component, Generator, GeneratorProfile, Model, Parser, Printer, Validator, Variable
 
 from utilities.tutorial_utilities import print_errors_to_terminal, print_encapsulation_structure_to_terminal, \
     switch_units_in_maths, insert_into_mathml_string
@@ -240,11 +240,20 @@ if __name__ == "__main__":
     Variable.addEquivalence(membrane.variable("V"), leakage_current.variable("V"))
     Variable.addEquivalence(environment.variable("V"), membrane.variable("V"))
 
+    Variable.addEquivalence(sodium_channel.variable("i_Na"), membrane.variable("i_Na"))
+    Variable.addEquivalence(potassium_channel.variable("i_K"), membrane.variable("i_K"))
+    Variable.addEquivalence(leakage_current.variable("i_L"), membrane.variable("i_L"))
+
     #  6.b Setting the interface types for those which haven't been inherited already
     environment.variable("t").setInterfaceType("public")
     membrane.variable("t").setInterfaceType("public_and_private")
     environment.variable("V").setInterfaceType("public")
     membrane.variable("V").setInterfaceType("public_and_private")
+
+    # TODO Check what these should be
+    sodium_channel.variable("i_Na").setInterfaceType("public_and_private")
+    potassium_channel.variable("i_K").setInterfaceType("public_and_private")
+    leakage_current.variable("i_L").setInterfaceType("public_and_private")
 
     validator.validateModel(model)
     print_errors_to_terminal(validator)
@@ -286,8 +295,15 @@ if __name__ == "__main__":
     print("   STEP 8: Output the final model")
     print("-----------------------------------------------")
 
-    printer = Printer()
-    serialised_model = printer.printModel(model)
-    write_file = open("tutorial8_HodgkinHuxleyModel.cellml", "w")
-    write_file.write(serialised_model)
-    print("The {} has been printed to tutorial8_HodgkinHuxleyModel.cellml".format(model.name()))
+    generator = Generator()
+    profile = GeneratorProfile(GeneratorProfile.Profile.PYTHON)
+    generator.setProfile(profile)
+
+    potassium_channel.variable("V").removeInitialValue()
+    membrane.variable("V").removeInitialValue()
+
+    # Generator currently segfauts here
+    generator.processModel(model)
+    print("procesed ... ")
+    print_errors_to_terminal(generator)
+

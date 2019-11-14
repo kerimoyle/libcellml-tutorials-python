@@ -109,6 +109,7 @@ if __name__ == "__main__":
         h = Variable()
         h.setName("h")
         h.setUnits("dimensionless")
+        h.setInitialValue(1.0)
         sodium_channel.addVariable(h)
 
         m = Variable()
@@ -232,8 +233,47 @@ if __name__ == "__main__":
                 </apply>\
             </apply>'
 
+        equation2 = \
+            '<apply><eq/>\
+                <ci>beta_m</ci>\
+                <apply><times/>\
+                    <cn cellml:units="per_ms">4</cn>\
+                    <apply><exp/>\
+                        <apply><divide/>\
+                            <ci>V</ci>\
+                            <cn cellml:units="mV">18</cn>\
+                        </apply>\
+                    </apply>\
+                </apply>\
+            </apply>'
+
+        equation3 = \
+            '<apply><eq/>\
+                <apply><diff/>\
+                    <bvar>\
+                        <ci>t</ci>\
+                    </bvar>\
+                    <ci>m</ci>\
+                </apply>\
+                <apply><minus/>\
+                    <apply><times/>\
+                        <ci>alpha_m</ci>\
+                        <apply><minus/>\
+                            <cn cellml:units="dimensionless">1</cn>\
+                            <ci>m</ci>\
+                        </apply>\
+                    </apply>\
+                    <apply><times/>\
+                        <ci>m</ci>\
+                        <ci>beta_m</ci>\
+                    </apply>\
+                </apply>\
+            </apply>'
+
         mGate.setMath(math_header)
         mGate.appendMath(equation1)
+        mGate.appendMath(equation2)
+        mGate.appendMath(equation3)
         mGate.appendMath(math_footer)
 
     #  2.c Call the validator - expect errors related to missing variables, then
@@ -262,6 +302,7 @@ if __name__ == "__main__":
 
         m = Variable()
         m.setName("m")
+        m.setInitialValue(0.05)
         m.setUnits("dimensionless")
         mGate.addVariable(m)
 
