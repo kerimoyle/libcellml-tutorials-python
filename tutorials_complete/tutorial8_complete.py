@@ -38,9 +38,9 @@ if __name__ == "__main__":
 
     #  1.b Extract the membrane component from the parsed model and add it
     #      to the combined model.  Note that the membrane component's parent
-    #      must be cleared before adding it to the model.
+    #      must be removed before adding it to the model.
     membrane = membrane_model.component("membrane")
-    membrane.clearParent()
+    membrane.removeParent()
     model.addComponent(membrane)
 
     #  1.c Validate the combined model.  We expect to see errors from:
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     #      to the one created at the beginning, and check the structure of the 
     #      encapsulation using the utility function printEncapsulationStructureToTerminal(model)
     sodium_channel = sodium_channel_model.component("sodiumChannel")
-    sodium_channel.clearParent()
+    sodium_channel.removeParent()
     membrane.addComponent(sodium_channel)
     print_encapsulation_structure_to_terminal(model)
 
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     #  3.b Extract the potassiumChannel component from the parsed model and add it
     #      to the combined model, and check the contents
     potassium_channel = potassium_channel_model.component("potassiumChannel")
-    potassium_channel.clearParent()
+    potassium_channel.removeParent()
     membrane.addComponent(potassium_channel)
 
     #  3.c Validate the combined model.
@@ -191,7 +191,7 @@ if __name__ == "__main__":
     #  4.b Extract the leakageCurrent component from the parsed model and add it
     #      to the combined model, and check the contents
     leakage_current = leakage_current_model.component("leakageCurrent")
-    leakage_current.clearParent()
+    leakage_current.removeParent()
     membrane.addComponent(leakage_current)
 
     #  4.c Validate the combined model.

@@ -13,7 +13,7 @@
 
 """
 
-from libcellml import Component, Model, Printer, Units, Validator
+from libcellml import Component, Model, Printer, Units, Validator, Variable
 
 from utilities.tutorial_utilities import print_errors_to_terminal
 
@@ -481,7 +481,7 @@ if __name__ == "__main__":
 
     printer = Printer()
     serialised_model = printer.printModel(model)
-    out_file = "Tutorial7_SodiumChannelModel.cellml"
+    out_file = "tutorial7_SodiumChannelModel.cellml"
     write_file = open(out_file, "w")
     write_file.write(serialised_model)
     print("The {m} has been printed to {n}".format(m=model.name(), n=out_file))
