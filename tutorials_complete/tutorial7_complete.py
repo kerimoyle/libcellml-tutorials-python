@@ -13,7 +13,7 @@
 
 """
 
-from libcellml import Component, Model, Printer, Units, Validator, Variable
+from libcellml import Component, Generator, GeneratorProfile, Model, Printer, Units, Validator, Variable
 
 from utilities.tutorial_utilities import print_errors_to_terminal
 
@@ -526,3 +526,21 @@ if __name__ == "__main__":
     write_file = open(out_file, "w")
     write_file.write(serialised_model)
     print("The {m} has been printed to {n}".format(m=model.name(), n=out_file))
+
+    print("-----------------------------------------------")
+    print("   STEP 8: Generate a Python file")
+    print("-----------------------------------------------")
+
+    generator = Generator()
+    profile = GeneratorProfile(GeneratorProfile.Profile.PYTHON)
+    generator.setProfile(profile)
+
+    generator.processModel(model)
+    print_errors_to_terminal(generator)
+
+    implementation_code = generator.implementationCode()
+    write_file = open("tutorial7_generated.py", "w")
+    write_file.write(implementation_code)
+    print("The {} has been printed to tutorial7_generated.py".format(model.name()))
+
+
